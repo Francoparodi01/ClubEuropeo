@@ -65,7 +65,7 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.a`
-  background: #3498db;
+  background: #00339b;
   color: white;
   padding: 10px 20px;
   border-radius: 5px;
@@ -74,6 +74,6 @@ const Button = styled.a`
   transition: background 0.3s;
 
   &:hover {
-    background: #2980b9;
+    background: #002672;
   }
 `;
