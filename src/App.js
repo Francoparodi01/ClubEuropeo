@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './Components/Navbar/Navbar';
 import Loader from './Components/Loader/Loader';
+import Home from './pages/Home/Home'
+import About from './pages/Nostoros/Nosotros'
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import HeroSection from './Components/HeroSection/HeroSection';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -19,16 +22,19 @@ function App() {
   }, []);
 
   return (
-    <>
+    <Router>
       {isLoading ? (
         <Loader />
       ) : (
         <>
           <Navbar />
-          <HeroSection />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About/>} />
+          </Routes>
         </>
       )}
-    </>
+    </Router>
   );
 }
 

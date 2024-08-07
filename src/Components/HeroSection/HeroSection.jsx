@@ -11,7 +11,7 @@ const HeroSection = () => {
         <Subtitle>Patrimonio cultural de Buenos Aires</Subtitle>
         <ButtonContainer>
           <Button href="#contact">Contacto</Button>
-          <Button href="#salones">Noticias</Button>
+          <Button href="#Noticias">Noticias</Button>
         </ButtonContainer>
       </Content>
     </HeroContainer>

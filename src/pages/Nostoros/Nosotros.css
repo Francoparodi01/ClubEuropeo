@@ -1,0 +1,19 @@
+/* Nosotros.css */
+
+.nosotros-container {
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    margin-top: 100px;
+  }
+  
+  .nosotros-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .nosotros-container p {
+    font-size: 1.2rem;
+  }
+  
