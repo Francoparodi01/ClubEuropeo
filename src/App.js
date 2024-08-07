@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react'
+
+import { Navbar } from "./Components/Navbar";
+
+import "./App.css";
+import Loader from "./Components/Loader/Loader";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() =>{
+      const DataFetch = () =>{
+          setTimeout(() =>{
+              setIsLoading(false)
+          }, 4000)
+      }
+
+      DataFetch()
+  }, [])
+
+  return isLoading ? (<Loader/>) : (<h1>Este es el club europeo</h1>)
 }
 
 export default App;
