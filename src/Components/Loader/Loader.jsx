@@ -36,7 +36,7 @@ const Loader = () => {
             })}
           </g>
         </svg>
-        <div className="loading-text">Loading...</div>
+        <div className="loading-text">Cargando...</div>
       </div>
     </div>
   );
