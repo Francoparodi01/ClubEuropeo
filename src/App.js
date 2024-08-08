@@ -5,11 +5,11 @@ import Loader from './Components/Loader/Loader';
 import Home from './pages/Home/Home'
 import About from './pages/Nostoros/Nosotros'
 import News from './pages/Noticias/Noticias'
-import Asociate from './pages/Asociate/Asociate'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Footer from './Components/Footer/Footer';
+import Contacto from './pages/Contacto/Contacto';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +35,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About/>} />
             <Route path="/news" element={<News/>}/>
-            <Route path="/asociate" element={<Asociate/>}/>
+            <Route path="/asociate" element={<Contacto/>}/>
           </Routes>
           <Footer/>
         </>
