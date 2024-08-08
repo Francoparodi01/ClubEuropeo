@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Importa Link para el enrutamiento
-import euroflag from '../../assets/european-flag.png';
+import euroflag from '../../assets/logo-club-europeo.png';
 import './Navbar.css';
 
 const NavbarComponent = () => {
@@ -17,6 +17,7 @@ const NavbarComponent = () => {
             <Nav.Link as={Link} to="/about" id='nav-item'>Nosotros</Nav.Link>
             <Nav.Link as={Link} to="/news" id='nav-item'>Noticias</Nav.Link>
             <Nav.Link as={Link} to="/contact" id='nav-item'>Contacto</Nav.Link>
+            <Nav.Link as={Link} to="/contact" id='nav-item'>Asociate</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

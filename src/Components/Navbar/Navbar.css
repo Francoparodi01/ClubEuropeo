@@ -15,16 +15,17 @@
 }
 #nav-item:hover{
     border-bottom: 2px solid #00339b;
+    color: #f09d03;
 }
 
 .euro-icon{
-    width: 5em;
+    width: 4em;
     margin-right: 100px;
 }
 
 @media (max-width: 768px) {
     .euro-icon {
-        width: 3em; 
+        width: 2em;
         margin-right: 20px;
     }
 }
