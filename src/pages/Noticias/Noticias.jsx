@@ -1,17 +1,59 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styled from 'styled-components';
+import "bootstrap/dist/css/bootstrap.min.css";
+
+const NoticiasContainer = styled.div`
+  padding: 20px;
+  margin-top: 170px;
+  text-align: center;
+`;
+
+const CardContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+`;
+
+const Card = styled.div`
+  width: 18rem;
+  background-color: #00339b;
+  color: #ffffff;
+`;
 
 const Noticias = () => {
-  return (
-    <>
-        <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
-  <div class="card-body">
-    <h5 class="card-title">Primary card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-</div>
-    </>
-  )
-}
+  const [noticias, setNoticias] = useState([]);
 
-export default Noticias
+  useEffect(() => {
+    const fetchNoticias = async () => {
+      try {
+        const response = await axios.get('/api/news');
+        setNoticias(response.data);
+      } catch (error) {
+        console.error('Error fetching noticias', error);
+      }
+    };
+
+    fetchNoticias();
+  }, []);
+
+  return (
+    <NoticiasContainer>
+      <CardContainer>
+        {noticias.map((noticia) => (
+          <Card key={noticia._id} className="card text-bg-primary mb-3">
+            <div className="card-header">{noticia.title}</div>
+            <div className="card-body">
+              <h5 className="card-title">{noticia.title}</h5>
+              <p className="card-text">{noticia.content}</p>
+              {noticia.image && <img src={noticia.image} alt={noticia.title} className="img-fluid" />}
+            </div>
+          </Card>
+        ))}
+      </CardContainer>
+    </NoticiasContainer>
+  );
+};
+
+export default Noticias;

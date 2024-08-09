@@ -86,7 +86,7 @@ const Footer = () => {
       <div className="container">
         <div className="navbar-footer">
           <li>
-            <p className="copyright-text">© 2024 Franco Parodi. Todos los derechos reservados.</p>
+            <p className="copyright-text">© 2024 Club Europeo. Todos los derechos reservados.</p>
           </li>
           <Link to="/about" id='foot-item'>Nosotros</Link>
           <Link to="/news" id='foot-item'>Noticias</Link>
