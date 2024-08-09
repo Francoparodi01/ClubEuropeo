@@ -27,24 +27,25 @@ const AdminNewsForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!title || !content) {
       setMessage('Título y contenido son obligatorios.');
       return;
     }
-
+  
     setLoading(true);
     setMessage(null);
-
+  
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
     if (image) {
       formData.append('image', image);
     }
-
+    formData.append('publishedAt', new Date().toISOString());
+  
     try {
-      await axios.post('http://localhost:3000/news', formData, {
+      await axios.post('http://localhost:5000/news', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

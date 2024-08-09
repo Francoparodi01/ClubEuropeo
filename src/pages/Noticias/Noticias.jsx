@@ -7,7 +7,6 @@ const NoticiasContainer = styled.div`
   padding: 20px;
   margin-top: 170px;
   text-align: center;
-  
 `;
 
 const CardContainer = styled.div`
@@ -25,17 +24,17 @@ const Card = styled.div`
 
 const Noticias = () => {
   const [noticias, setNoticias] = useState([]);
-
+  
   useEffect(() => {
     const fetchNoticias = async () => {
       try {
-        const response = await axios.get('/api/news');
+        const response = await axios.get('http://localhost:5000/news'); // Asegúrate de que la ruta sea correcta
         setNoticias(response.data);
       } catch (error) {
         console.error('Error fetching noticias', error);
       }
     };
-
+  
     fetchNoticias();
   }, []);
 
@@ -43,12 +42,12 @@ const Noticias = () => {
     <NoticiasContainer>
       <CardContainer>
         {noticias.map((noticia) => (
-          <Card key={noticia._id} className="card text-bg-primary mb-3">
+          <Card key={noticia.id} className="card text-bg-primary mb-3">
             <div className="card-header">{noticia.title}</div>
             <div className="card-body">
               <h5 className="card-title">{noticia.title}</h5>
               <p className="card-text">{noticia.content}</p>
-              {noticia.image && <img src={noticia.image} alt={noticia.title} className="img-fluid" />}
+              {noticia.imageUrl && <img src={noticia.imageUrl} alt={noticia.title} className="img-fluid" />}
             </div>
           </Card>
         ))}
