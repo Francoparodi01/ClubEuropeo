@@ -7,6 +7,7 @@ const NoticiasContainer = styled.div`
   padding: 20px;
   margin-top: 170px;
   text-align: center;
+  
 `;
 
 const CardContainer = styled.div`

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Alert } from 'react-bootstrap';
+import axios from 'axios';
 
 const FormContainer = styled(Container)`
   max-width: 600px;
-  margin-top: 50px;
+  margin-top: 200px;
   padding: 20px;
   background-color: #f8f9fa;
   border-radius: 8px;
@@ -21,15 +22,49 @@ const AdminNewsForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ title, content, image });
+
+    if (!title || !content) {
+      setMessage('Título y contenido son obligatorios.');
+      return;
+    }
+
+    setLoading(true);
+    setMessage(null);
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('content', content);
+    if (image) {
+      formData.append('image', image);
+    }
+
+    try {
+      await axios.post('http://localhost:3000/news', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      setMessage('Noticia publicada exitosamente.');
+      setTitle('');
+      setContent('');
+      setImage(null);
+    } catch (error) {
+      setMessage('Error al publicar la noticia.');
+      console.error('Error al publicar la noticia:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <FormContainer>
       <Title>Generar Nueva Noticia</Title>
+      {message && <Alert variant={message.includes('Error') ? 'danger' : 'success'}>{message}</Alert>}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formTitle">
           <Form.Label>Título</Form.Label>
@@ -62,8 +97,8 @@ const AdminNewsForm = () => {
 
         <Row className="mt-4">
           <Col className="d-flex justify-content-center">
-            <Button variant="primary" type="submit">
-              Publicar Noticia
+            <Button variant="primary" type="submit" disabled={loading}>
+              {loading ? 'Publicando...' : 'Publicar Noticia'}
             </Button>
           </Col>
         </Row>
