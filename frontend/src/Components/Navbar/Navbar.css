@@ -1,0 +1,31 @@
+
+#navbar-container{
+    margin: 1em;
+}
+
+.navbar-title{
+    margin-left: 10px;
+}
+
+#nav-item{
+    color: black;
+    transition: border-bottom 0.4s ease-in-out;
+    border-bottom: 2px solid transparent;
+    margin: 10px;
+}
+#nav-item:hover{
+    border-bottom: 2px solid #00339b;
+    color: #f09d03;
+}
+
+.euro-icon{
+    width: 4em;
+    margin-right: 100px;
+}
+
+@media (max-width: 768px) {
+    .euro-icon {
+        width: 2em;
+        margin-right: 20px;
+    }
+}
