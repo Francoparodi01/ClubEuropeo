@@ -6,13 +6,13 @@ const multer = require('multer');
 const path = require('path');
 const app = express();
 
-// Configuración de Multer para manejo de archivos
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Directorio de destino para los archivos subidos
+    cb(null, 'uploads/'); 
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Nombre del archivo
+    cb(null, Date.now() + path.extname(file.originalname)); 
   }
 });
 
@@ -21,7 +21,7 @@ const upload = multer({ storage });
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static('uploads')); // Servir archivos estáticos desde la carpeta uploads
+app.use('/uploads', express.static('uploads')); 
 
 // Conectar a MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -89,12 +89,26 @@ app.get('/news/:id', async (req, res) => {
 });
 
 // Actualizar una noticia por ID
-app.put('/news/:id', async (req, res) => {
+app.put('/news/:id', upload.single('image'), async (req, res) => {
   const { id } = req.params;
-  const { title, content, imageUrl, publishedAt } = req.body;
-
+  const { title, content, publishedAt } = req.body;
+  
   try {
-    const news = await News.findByIdAndUpdate(id, { title, content, imageUrl, publishedAt }, { new: true });
+    // Crear un objeto para almacenar los datos actualizados
+    const updatedNews = {
+      title,
+      content,
+      publishedAt
+    };
+
+    // Si se carga una nueva imagen, añade la URL de la imagen al objeto actualizado
+    if (req.file) {
+      updatedNews.imageUrl = `http://localhost:5000/uploads/${req.file.filename}`;
+    }
+
+    // Actualizar la noticia en la base de datos
+    const news = await News.findByIdAndUpdate(id, updatedNews, { new: true });
+
     if (news) {
       res.status(200).json(news);
     } else {
