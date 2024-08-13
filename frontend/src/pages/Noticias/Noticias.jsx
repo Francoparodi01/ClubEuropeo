@@ -9,14 +9,13 @@ const NoticiasContainer = styled.div`
 `;
 
 const CardContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  gap: 40px;
   justify-content: center;
-  gap: 20px;
 `;
 
 const Card = styled.div`
-  width: 20rem;
   background-color: #ffffff;
   border: none;
 

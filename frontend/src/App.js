@@ -12,6 +12,7 @@ import AdminNewsForm from './Components/NewsHandler/NewsHandler';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import Carrousel from './Components/Carrousel/Carrousel';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +41,7 @@ function App() {
             <Route path='/contact' element={<Contacto/>}/>
             <Route path='/admin/news' element={<AdminNewsForm/>}/>
           </Routes>
+          <Carrousel/>
           <Footer/>
         </>
       )}
