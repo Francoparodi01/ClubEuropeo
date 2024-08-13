@@ -22,11 +22,12 @@ const AdminNewsForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
+  const [author, setAuthor] = useState(''); // Nuevo estado para el autor
   const [message, setMessage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [newsList, setNewsList] = useState([]);
-  const [editMode, setEditMode] = useState(false);  // Modo de edición
-  const [editId, setEditId] = useState(null);       // ID de la noticia a editar
+  const [editMode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState(null);
 
   useEffect(() => {
     fetchNews();
@@ -43,26 +44,26 @@ const AdminNewsForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    if (!title || !content) {
-      setMessage('Título y contenido son obligatorios.');
+
+    if (!title || !content || !author) {
+      setMessage('Título, contenido y autor son obligatorios.');
       return;
     }
-  
+
     setLoading(true);
     setMessage(null);
-  
+
     const formData = new FormData();
     formData.append('title', title);
     formData.append('content', content);
+    formData.append('author', author);
     if (image) {
       formData.append('image', image);
     }
     formData.append('publishedAt', new Date().toISOString());
-  
+
     try {
       if (editMode) {
-        // Actualizar noticia existente
         await axios.put(`http://localhost:5000/news/${editId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -70,7 +71,6 @@ const AdminNewsForm = () => {
         });
         setMessage('Noticia actualizada exitosamente.');
       } else {
-        // Crear nueva noticia
         await axios.post('http://localhost:5000/news', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -79,13 +79,13 @@ const AdminNewsForm = () => {
         setMessage('Noticia publicada exitosamente.');
       }
 
-      // Restablecer el formulario
       setTitle('');
       setContent('');
+      setAuthor(''); 
       setImage(null);
       setEditMode(false);
       setEditId(null);
-      fetchNews(); // Actualiza la lista de noticias
+      fetchNews();
     } catch (error) {
       setMessage(editMode ? 'Error al actualizar la noticia.' : 'Error al publicar la noticia.');
       console.error('Error:', error);
@@ -97,6 +97,7 @@ const AdminNewsForm = () => {
   const handleEdit = (news) => {
     setTitle(news.title);
     setContent(news.content);
+    setAuthor(news.author); 
     setEditId(news._id);
     setEditMode(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -106,16 +107,18 @@ const AdminNewsForm = () => {
     try {
       await axios.delete(`http://localhost:5000/news/${id}`);
       setMessage('Noticia eliminada exitosamente.');
-      fetchNews(); // Actualiza la lista de noticias
+      fetchNews();
     } catch (error) {
       setMessage('Error al eliminar la noticia.');
       console.error('Error al eliminar la noticia:', error);
     }
   };
 
+  
+
   return (
     <FormContainer>
-      <Title>{editMode ? 'Editar Noticia' : 'Generar Nueva Noticia'}</Title>
+      <Title>{editMode ? 'Editar Noticia' : 'Escribir nueva noticia'}</Title>
       {message && <Alert variant={message.includes('Error') ? 'danger' : 'success'}>{message}</Alert>}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formTitle">
@@ -136,6 +139,16 @@ const AdminNewsForm = () => {
             placeholder="Ingresar contenido"
             value={content}
             onChange={(e) => setContent(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formAuthor" className="mt-3">
+          <Form.Label>Autor</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Ingresar autor"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
           />
         </Form.Group>
 
@@ -162,6 +175,7 @@ const AdminNewsForm = () => {
           <ListGroup.Item key={news._id}>
             <div>
               <strong>{news.title}</strong>
+              <div>Autor: {news.author}</div> 
             </div>
             <Button
               variant="secondary"

@@ -6,7 +6,7 @@ const multer = require('multer');
 const path = require('path');
 const app = express();
 
-
+// Configuración de almacenamiento para Multer
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads/'); 
@@ -35,6 +35,7 @@ mongoose.connect(process.env.MONGO_URI, {
 const newsSchema = new mongoose.Schema({
   title: { type: String, required: true },
   content: { type: String, required: true },
+  author: { type: String, required: true },
   imageUrl: String,
   publishedAt: { type: Date, required: true },
 });
@@ -48,11 +49,11 @@ app.get('/api', (req, res) => {
 
 // Ruta para manejar noticias
 app.post('/news', upload.single('image'), async (req, res) => {
-  const { title, content, publishedAt } = req.body;
+  const { title, content, publishedAt, author } = req.body;
   const imageUrl = req.file ? `http://localhost:5000/uploads/${req.file.filename}` : null;
 
   try {
-    const news = new News({ title, content, imageUrl, publishedAt });
+    const news = new News({ title, content, author, imageUrl, publishedAt });
     await news.save();
     res.status(201).json(news);
   } catch (error) {
@@ -91,14 +92,15 @@ app.get('/news/:id', async (req, res) => {
 // Actualizar una noticia por ID
 app.put('/news/:id', upload.single('image'), async (req, res) => {
   const { id } = req.params;
-  const { title, content, publishedAt } = req.body;
+  const { title, content, publishedAt, author } = req.body;
   
   try {
     // Crear un objeto para almacenar los datos actualizados
     const updatedNews = {
       title,
       content,
-      publishedAt
+      publishedAt,
+      author
     };
 
     // Si se carga una nueva imagen, añade la URL de la imagen al objeto actualizado
