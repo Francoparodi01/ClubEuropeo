@@ -39,8 +39,9 @@ export default function FlagCarousel() {
   return (
     <>
       <Swiper
-        slidesPerView={8}
-        spaceBetween={0}
+        slidesPerView={12}
+        rewind={true}
+        spaceBetween={5}
         grabCursor={true}
         modules={[Autoplay]}
         autoplay
@@ -51,11 +52,12 @@ export default function FlagCarousel() {
             <WorldFlag
               code={flag.code}
               alt={flag.alt}
-              style={{ width: '600px', height: '30px' }} 
+              style={{ width: '300px', height: '30px' }} 
             />
           </SwiperSlide>
         ))}
       </Swiper>
     </>
+    
   );
 }

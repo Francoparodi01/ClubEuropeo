@@ -11,24 +11,24 @@ const NoticiasContainer = styled.div`
 const CardContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
-  gap: 40px;
+  gap: 60px;
   justify-content: center;
 `;
 
 const Card = styled.div`
-  background-color: #ffffff;
+  background-color: #f2f2f2;  /* Fondo más claro */
   border: none;
 
   .card-title {
     font-size: 1.25rem;
     font-weight: bold;
-    color: #00339b;
+    color: #0056b3;  /* Azul más claro */
     text-align: left;
   }
 
   .card-text {
     font-size: 1rem;
-    color: #333333;
+    color: #444444;  /* Texto más oscuro */
     text-align: left;
   }
 
@@ -41,6 +41,10 @@ const Card = styled.div`
     background-color: transparent;
     border-top: none;
     padding-top: 0;
+  }
+
+  &:hover {
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.2);  /* Sombra más suave */
   }
 `;
 
