@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate para la redirección
 
 // Estilos personalizados utilizando styled-components
 const StyledCard = styled(Card)`
   width: 18rem;
-  margin: 30px;
+  margin: 20px; /* Ajuste de margen para agregar espacio entre tarjetas */
 `;
 
 const StyledCardTitle = styled(Card.Title)`
@@ -21,12 +19,17 @@ const StyledCardText = styled(Card.Text)`
   color: #333;
 `;
 
+const NewsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly; /* Espacio uniforme entre las tarjetas */
+  margin-top: 20px;
+`;
+
 const ResuNews = () => {
   const [news, setNews] = useState([]);
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Usa useNavigate para redirigir
 
-  // Petición al backend para obtener las noticias
   useEffect(() => {
     axios
       .get('http://localhost:5000/news')
@@ -39,16 +42,13 @@ const ResuNews = () => {
       });
   }, []);
 
-  const handleViewMore = () => {
-    navigate('/news'); // Redirige a la ruta /news
-  };
-
   return (
     <div>
       {error && <p>{error}</p>}
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <NewsContainer>
         {news.slice(0, 10).map((item) => {
           const { title, content } = item;
+          // Limitar el contenido a 25 palabras con espacios entre ellas
           const previewContent = content ? content.split(' ').slice(0, 25).join(' ') : '';
 
           return (
@@ -62,7 +62,7 @@ const ResuNews = () => {
             </StyledCard>
           );
         })}
-      </div>
+      </NewsContainer>
     </div>
   );
 };

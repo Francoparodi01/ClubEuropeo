@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaMapMarkerAlt , FaLinkedin } from 'react-icons/fa';
-import { SiGmail, SiGooglemaps } from "react-icons/si";
+import { SiGmail } from "react-icons/si";
 import { Link } from 'react-router-dom';
 
 const FooterContainer = styled.footer`

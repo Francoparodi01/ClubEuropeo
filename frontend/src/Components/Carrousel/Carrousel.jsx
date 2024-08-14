@@ -44,7 +44,7 @@ export default function FlagCarousel() {
         spaceBetween={5}
         grabCursor={true}
         modules={[Autoplay]}
-        autoplay
+        autoplay={{ delay: 900 }}
         className="mySwiper"
       >
         {flags.map((flag, index) => (
@@ -52,7 +52,7 @@ export default function FlagCarousel() {
             <WorldFlag
               code={flag.code}
               alt={flag.alt}
-              style={{ width: '300px', height: '30px' }} 
+              style={{ width: '300px', height: '30px', marginTop: '10px', marginBottom: '15px'}} 
             />
           </SwiperSlide>
         ))}
