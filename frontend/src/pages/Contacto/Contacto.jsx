@@ -35,6 +35,8 @@ const MapContainer = styled.div`
 
   @media (max-width: 768px) {
     height: 50vh;
+    margin-top: '100px';
+    margin-bottom: '70px'
   }
 
   @media (max-width: 480px) {
@@ -44,7 +46,7 @@ const MapContainer = styled.div`
 
 const Contacto = () => {
   return (
-    <Container fluid style={{ height: '100vh', marginTop: '100px', marginBottom: '70px'}}>
+    <Container fluid style={{ height: '100vh'}}>
       <Row style={{ height: '100%' }}>
         {/* Formulario de contacto */}
         <Col xs={12} md={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -53,7 +55,7 @@ const Contacto = () => {
           </FormWrapper>
         </Col>
 
-        <Col xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <Col xs={12} md={8} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '200px'}}>
           <MapWrapper>
             <MapContainer>
               <MapApi />

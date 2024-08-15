@@ -1,71 +1,50 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { GoogleMap, useLoadScript } from '@react-google-maps/api';
+import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import styled from 'styled-components';
 
 // Estilo personalizado para el contenedor del mapa
 const MapContainer = styled.div`
-  height: 60vh;
+  height: 70vh;
   width: 100%;
-  margin-bottom: 100px;
 
   @media (max-width: 768px) {
-    height: 50vh; // Reduce la altura en dispositivos más pequeños
+    height: 50vh;
   }
 
   @media (max-width: 480px) {
-    height: 40vh; // Reduce aún más la altura en dispositivos muy pequeños
+    height: 40vh;
   }
 `;
 
 const MapApi = () => {
-  const mapRef = useRef(null);
   const [markerPosition, setMarkerPosition] = useState({
     lat: -34.589526,
     lng: -58.387662,
   });
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyAlGJl8nxle0axqsuGbvFPImxnk9_ijw9Y', // Usa tu clave API
-    libraries: ['marker'], // Asegúrate de incluir la biblioteca de marcadores
+    googleMapsApiKey: 'AIzaSyAlGJl8nxle0axqsuGbvFPImxnk9_ijw9Y',
   });
-
-  useEffect(() => {
-    if (isLoaded && mapRef.current) {
-      const map = mapRef.current;
-
-      // Cargar la API de Google Maps
-      const { google } = window;
-
-      if (google) {
-        // Crear el marcador avanzado
-        const marker = new google.maps.marker.AdvancedMarkerElement({
-          map: map,
-          position: markerPosition,
-        });
-
-        // Agregar un evento de clic al marcador
-        marker.addListener('click', () => {
-          setMarkerPosition(prevPosition => ({
-            lat: prevPosition.lat + 0.01,
-            lng: prevPosition.lng + 0.01,
-          }));
-        });
-      } else {
-        console.error('Google Maps API no está disponible.');
-      }
-    }
-  }, [isLoaded, markerPosition]);
 
   if (!isLoaded) return <div>Cargando mapa...</div>;
 
   return (
     <MapContainer>
       <GoogleMap
-        onLoad={map => mapRef.current = map}
         center={markerPosition}
         zoom={11}
         mapContainerStyle={{ height: '100%', width: '100%' }}
-      />
+        onClick={(e) => setMarkerPosition({ lat: e.latLng.lat(), lng: e.latLng.lng() })}
+      >
+        {/* Añadimos el marcador */}
+        <Marker 
+          position={markerPosition}
+          onClick={() => setMarkerPosition(prevPosition => ({
+            lat: prevPosition.lat + 0.01,
+            lng: prevPosition.lng + 0.01,
+          }))}
+        />
+      </GoogleMap>
     </MapContainer>
   );
 };
