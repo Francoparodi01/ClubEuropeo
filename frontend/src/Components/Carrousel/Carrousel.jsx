@@ -39,25 +39,60 @@ export default function FlagCarousel() {
   return (
     <>
       <Swiper
-        slidesPerView={12}
         rewind={true}
         spaceBetween={5}
         grabCursor={true}
         modules={[Autoplay]}
         autoplay={{ delay: 900 }}
         className="mySwiper"
+        breakpoints={{
+          320: {
+            slidesPerView: 3,
+            spaceBetween: 10,
+          },
+          480: {
+            slidesPerView: 3,
+            spaceBetween: 15,
+          },
+          640: {
+            slidesPerView: 4,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 6,
+            spaceBetween: 25,
+          },
+          1024: {
+            slidesPerView: 8,
+            spaceBetween: 30,
+          },
+          1280: {
+            slidesPerView: 10,
+            spaceBetween: 35,
+          },
+          1440: {
+            slidesPerView: 12,
+            spaceBetween: 40,
+          },
+        }}
       >
         {flags.map((flag, index) => (
-          <SwiperSlide key={index}>
+          <SwiperSlide key={index} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <WorldFlag
               code={flag.code}
               alt={flag.alt}
-              style={{ width: '300px', height: '30px', marginTop: '10px', marginBottom: '15px'}} 
+              style={{
+                width: 'auto', // Ajuste de ancho al 90% del contenedor
+                height: '40px',
+                marginBottom: '10px',
+                boxSizing: 'border-box',
+                border: '1px solid #aaaaaa',
+                marginTop: '60px'
+              }}
             />
           </SwiperSlide>
         ))}
       </Swiper>
     </>
-    
   );
 }

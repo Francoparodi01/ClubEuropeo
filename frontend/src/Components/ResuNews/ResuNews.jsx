@@ -23,7 +23,7 @@ const NewsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly; /* Espacio uniforme entre las tarjetas */
-  margin-top: 20px;
+  margin-top: 50px;
 `;
 
 const ResuNews = () => {
@@ -48,7 +48,6 @@ const ResuNews = () => {
       <NewsContainer>
         {news.slice(0, 10).map((item) => {
           const { title, content } = item;
-          // Limitar el contenido a 25 palabras con espacios entre ellas
           const previewContent = content ? content.split(' ').slice(0, 25).join(' ') : '';
 
           return (

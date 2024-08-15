@@ -4,8 +4,17 @@ import styled from 'styled-components';
 
 // Estilo personalizado para el contenedor del mapa
 const MapContainer = styled.div`
-  height: 400px;
+  height: 60vh;
   width: 100%;
+  margin-bottom: 100px;
+
+  @media (max-width: 768px) {
+    height: 50vh; // Reduce la altura en dispositivos más pequeños
+  }
+
+  @media (max-width: 480px) {
+    height: 40vh; // Reduce aún más la altura en dispositivos muy pequeños
+  }
 `;
 
 const MapApi = () => {
@@ -32,7 +41,6 @@ const MapApi = () => {
         const marker = new google.maps.marker.AdvancedMarkerElement({
           map: map,
           position: markerPosition,
-          // Otros parámetros opcionales
         });
 
         // Agregar un evento de clic al marcador
