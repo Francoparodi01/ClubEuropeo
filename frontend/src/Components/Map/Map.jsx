@@ -13,8 +13,6 @@ const MapContainer = styled.div`
 
   @media (max-width: 480px) {
     height: 40vh;
-    
-    margin-bottom: '70px'
   }
 `;
 
@@ -35,7 +33,7 @@ const MapApi = () => {
     <MapContainer>
       <GoogleMap
         center={markerPosition}
-        zoom={11}
+        zoom={17}
         mapContainerStyle={{ height: '100%', width: '100%' }}
       >
         <MarkerF 
