@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState} from 'react';
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import styled from 'styled-components';
 
 // Estilo personalizado para el contenedor del mapa
 const MapContainer = styled.div`
-  height: 70vh;
+  height: 55vh;
   width: 100%;
 
   @media (max-width: 768px) {

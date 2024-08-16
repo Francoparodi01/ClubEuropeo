@@ -28,7 +28,7 @@ const MapWrapper = styled.div`
 
 const MapContainer = styled.div`
   width: 100%;
-  height: 70vh;
+  height: 55vh;
   border: 2px solid #ccc;
   border-radius: 10px;
   overflow: hidden;
@@ -48,7 +48,6 @@ const Contacto = () => {
   return (
     <Container fluid style={{ height: '100vh'}}>
       <Row style={{ height: '100%' }}>
-        {/* Formulario de contacto */}
         <Col xs={12} md={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <FormWrapper>
             <ContactForm />
