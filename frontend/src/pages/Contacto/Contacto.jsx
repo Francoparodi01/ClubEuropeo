@@ -4,7 +4,6 @@ import MapApi from '../../Components/Map/Map';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
 
-// Estilos personalizados con styled-components
 const FormWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -13,6 +12,9 @@ const FormWrapper = styled.div`
   padding: 20px;
   @media (max-width: 768px) {
     padding: 10px;
+  }
+  @media (max-width: 480px) {
+    margin-top: 100px;
   }
 `;
 
@@ -23,6 +25,9 @@ const MapWrapper = styled.div`
 
   @media (max-width: 768px) {
     padding: 10px;
+  }
+  @media (max-width: 480px) {
+    margin-bottom: 400px;
   }
 `;
 

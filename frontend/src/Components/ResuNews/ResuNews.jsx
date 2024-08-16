@@ -6,7 +6,7 @@ import Card from 'react-bootstrap/Card';
 // Estilos personalizados utilizando styled-components
 const StyledCard = styled(Card)`
   width: 18rem;
-  margin: 20px; /* Ajuste de margen para agregar espacio entre tarjetas */
+  margin: 20px;
 `;
 
 const StyledCardTitle = styled(Card.Title)`
@@ -22,7 +22,7 @@ const StyledCardText = styled(Card.Text)`
 const NewsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly; /* Espacio uniforme entre las tarjetas */
+  justify-content: space-evenly;
   margin-top: 50px;
 `;
 
@@ -48,15 +48,15 @@ const ResuNews = () => {
       <NewsContainer>
         {news.slice(0, 10).map((item) => {
           const { title, content } = item;
-          const previewContent = content ? content.split(' ').slice(0, 25).join(' ') : '';
+          const previewContent = content ? content.split(' ').slice(0, 25).join(' ') + '...' : '';
 
           return (
             <StyledCard key={item._id}>
               <Card.Body>
                 <StyledCardTitle>{title}</StyledCardTitle>
-                <StyledCardText>
-                  {previewContent}...
-                </StyledCardText>
+                <StyledCardText
+                  dangerouslySetInnerHTML={{ __html: previewContent }}
+                />
               </Card.Body>
             </StyledCard>
           );
