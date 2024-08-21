@@ -6,10 +6,9 @@ const multer = require('multer');
 const path = require('path');
 const admin = require('firebase-admin');
 const axios = require('axios');
-const fs = require('fs');
 
-// Leer el archivo de credenciales de Firebase
-const serviceAccount = JSON.parse(fs.readFileSync(process.env.FIREBASE_SERVICE_ACCOUNT_PATH, 'utf8'));
+// Inicializar Firebase Admin SDK
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
