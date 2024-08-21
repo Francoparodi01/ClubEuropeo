@@ -70,7 +70,7 @@ const Noticias = () => {
   useEffect(() => {
     const fetchNoticias = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/news'); // Asegúrate de que la URL sea correcta
+        const response = await axios.get('https://club-europeo-back.vercel.app/'); // Asegúrate de que la URL sea correcta
         setNoticias(response.data);
       } catch (error) {
         console.error('Error fetching noticias', error);

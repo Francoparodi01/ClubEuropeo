@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Form, Button, Container, Row, Col, Alert, ListGroup } from 'react-bootstrap';
+import { Form, Button, Container, Row, Col, Alert, ListGroup, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -21,57 +21,80 @@ const Title = styled.h2`
   font-weight: bold;
 `;
 
+const ImagePreview = styled.img`
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 8px;
+`;
+
 // Componente de formulario para noticias
-const NewsForm = ({ title, content, author, setTitle, setContent, setAuthor, image, setImage, loading, handleSubmit, editMode }) => (
-  <Form onSubmit={handleSubmit}>
-    <Form.Group controlId="formTitle">
-      <Form.Label>Título</Form.Label>
-      <Form.Control
-        type="text"
-        placeholder="Ingresar título"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-    </Form.Group>
+const NewsForm = ({ title, content, author, setTitle, setContent, setAuthor, image, setImage, imagePreview, setImagePreview, loading, handleSubmit, editMode }) => {
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
 
-    <Form.Group controlId="formContent" className="mt-3">
-      <Form.Label>Contenido</Form.Label>
-      <ReactQuill
-        className='bg-white'
-        theme="snow"
-        value={content}
-        onChange={setContent}
-        placeholder="Escribir contenido aquí..."
-      />
-    </Form.Group>
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-    <Form.Group controlId="formAuthor" className="mt-3">
-      <Form.Label>Autor</Form.Label>
-      <Form.Control
-        type="text"
-        placeholder="Ingresar autor"
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-      />
-    </Form.Group>
+  return (
+    <Form onSubmit={handleSubmit}>
+      <Form.Group controlId="formTitle">
+        <Form.Label>Título</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Ingresar título"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </Form.Group>
 
-    <Form.Group controlId="formImage" className="mt-3">
-      <Form.Label>Imagen</Form.Label>
-      <Form.Control
-        type="file"
-        onChange={(e) => setImage(e.target.files[0])}
-      />
-    </Form.Group>
+      <Form.Group controlId="formContent" className="mt-3">
+        <Form.Label>Contenido</Form.Label>
+        <ReactQuill
+          className="bg-white"
+          theme="snow"
+          value={content}
+          onChange={setContent}
+          placeholder="Escribir contenido aquí..."
+        />
+      </Form.Group>
 
-    <Row className="mt-4">
-      <Col className="d-flex justify-content-center">
-        <Button variant="primary" type="submit" disabled={loading}>
-          {loading ? 'Guardando...' : (editMode ? 'Actualizar Noticia' : 'Publicar Noticia')}
-        </Button>
-      </Col>
-    </Row>
-  </Form>
-);
+      <Form.Group controlId="formAuthor" className="mt-3">
+        <Form.Label>Autor</Form.Label>
+        <Form.Control
+          type="text"
+          placeholder="Ingresar autor"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+        />
+      </Form.Group>
+
+      <Form.Group controlId="formImage" className="mt-3">
+        <Form.Label>Imagen</Form.Label>
+        <Form.Control
+          type="file"
+          onChange={handleImageChange}
+        />
+        {imagePreview && <ImagePreview src={imagePreview} alt="Previsualización de la imagen" />}
+      </Form.Group>
+
+      <Row className="mt-4">
+        <Col className="d-flex justify-content-center">
+          <Button variant="primary" type="submit" disabled={loading}>
+            {loading ? 'Guardando...' : (editMode ? 'Actualizar Noticia' : 'Publicar Noticia')}
+          </Button>
+        </Col>
+      </Row>
+    </Form>
+  );
+};
 
 // Componente para la lista de noticias
 const NewsList = ({ newsList, handleEdit, handleDelete }) => (
@@ -106,6 +129,7 @@ const AdminNewsForm = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [author, setAuthor] = useState('');
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState('success');
@@ -113,6 +137,7 @@ const AdminNewsForm = () => {
   const [newsList, setNewsList] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editId, setEditId] = useState(null);
+  const [loadingNews, setLoadingNews] = useState(true);
 
   useEffect(() => {
     fetchNews();
@@ -120,10 +145,13 @@ const AdminNewsForm = () => {
 
   const fetchNews = async () => {
     try {
+      setLoadingNews(true);
       const response = await axios.get('http://localhost:5000/news');
       setNewsList(response.data);
     } catch (error) {
       console.error('Error al obtener las noticias:', error);
+    } finally {
+      setLoadingNews(false);
     }
   };
 
@@ -183,6 +211,7 @@ const AdminNewsForm = () => {
     setContent('');
     setAuthor('');
     setImage(null);
+    setImagePreview(null);
     setEditMode(false);
     setEditId(null);
   };
@@ -223,17 +252,25 @@ const AdminNewsForm = () => {
         setAuthor={setAuthor}
         image={image}
         setImage={setImage}
+        imagePreview={imagePreview}
+        setImagePreview={setImagePreview}
         loading={loading}
         handleSubmit={handleSubmit}
         editMode={editMode}
       />
 
       <Title className="mt-5">Noticias Publicadas</Title>
-      <NewsList
-        newsList={newsList}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-      />
+      {loadingNews ? (
+        <div className="d-flex justify-content-center mt-4">
+          <Spinner animation="border" />
+        </div>
+      ) : (
+        <NewsList
+          newsList={newsList}
+          handleEdit={handleEdit}
+          handleDelete={handleDelete}
+        />
+      )}
     </FormContainer>
   );
 };
