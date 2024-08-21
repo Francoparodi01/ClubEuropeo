@@ -6,13 +6,14 @@ const multer = require('multer');
 const path = require('path');
 const admin = require('firebase-admin');
 const axios = require('axios');
+const fs = require('fs');
 
-// Inicializar Firebase Admin SDK
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+// Leer el archivo de credenciales de Firebase
+const serviceAccount = JSON.parse(fs.readFileSync(process.env.FIREBASE_SERVICE_ACCOUNT_PATH, 'utf8'));
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  storageBucket: 'club-europeo.appspot.com',
+  storageBucket: 'gs://club-europeo.appspot.com',
 });
 
 const bucket = admin.storage().bucket();
