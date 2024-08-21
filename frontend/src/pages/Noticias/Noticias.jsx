@@ -70,7 +70,7 @@ const Noticias = () => {
   useEffect(() => {
     const fetchNoticias = async () => {
       try {
-        const response = await axios.get('https://club-europeo-back.vercel.app/'); // Asegúrate de que la URL sea correcta
+        const response = await axios.get('http://localhost:5000/external-news'); // URL del endpoint del backend
         setNoticias(response.data);
       } catch (error) {
         console.error('Error fetching noticias', error);
@@ -94,29 +94,33 @@ const Noticias = () => {
   return (
     <NoticiasContainer>
       <CardContainer>
-        {noticias.map((noticia) => (
-          <Card key={noticia._id}>
-            {noticia.imageUrl && (
-              <img 
-                src={noticia.imageUrl} 
-                alt={noticia.title} 
-                className="card-img-top" 
-              />
-            )}
-            <div className="card-body">
-              <h5 className="card-title">{noticia.title}</h5>
-              <p className="card-text">
-                {truncateText(stripHtml(noticia.content), 25)}
-              </p>
-              <Link to={`/news/${noticia._id}`} className="btn btn-primary">
-                Leer más
-              </Link>
-            </div>
-            <div className="card-footer">
-              <Author>Por {noticia.author}</Author>
-            </div>
-          </Card>
-        ))}
+        {noticias.length > 0 ? (
+          noticias.map((noticia) => (
+            <Card key={noticia._id}>
+              {noticia.imageUrl && (
+                <img 
+                  src={noticia.imageUrl} 
+                  alt={noticia.title} 
+                  className="card-img-top" 
+                />
+              )}
+              <div className="card-body">
+                <h5 className="card-title">{noticia.title}</h5>
+                <p className="card-text">
+                  {truncateText(stripHtml(noticia.content), 25)}
+                </p>
+                <Link to={`/news/${noticia._id}`} className="btn btn-primary">
+                  Leer más
+                </Link>
+              </div>
+              <div className="card-footer">
+                <Author>Por {noticia.author}</Author>
+              </div>
+            </Card>
+          ))
+        ) : (
+          <p>No hay noticias disponibles.</p>
+        )}
       </CardContainer>
     </NoticiasContainer>
   );

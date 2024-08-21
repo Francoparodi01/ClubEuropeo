@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Form, Button, Container, Row, Col, Alert, ListGroup, Spinner } from 'react-bootstrap';
 import axios from 'axios';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 
 // Estilos
 const FormContainer = styled(Container)`
@@ -32,6 +30,14 @@ const ImagePreview = styled.img`
 const NewsForm = ({ title, content, author, setTitle, setContent, setAuthor, image, setImage, imagePreview, setImagePreview, loading, handleSubmit, editMode }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+
+    if (file && file.size > 5 * 1024 * 1024) { // Limita a 5MB
+      alert('El tamaño de la imagen no debe exceder los 5MB.');
+      setImage(null);
+      setImagePreview(null);
+      return;
+    }
+
     setImage(file);
 
     if (file) {
@@ -57,12 +63,12 @@ const NewsForm = ({ title, content, author, setTitle, setContent, setAuthor, ima
 
       <Form.Group controlId="formContent" className="mt-3">
         <Form.Label>Contenido</Form.Label>
-        <ReactQuill
-          className="bg-white"
-          theme="snow"
-          value={content}
-          onChange={setContent}
+        <Form.Control
+          as="textarea"
+          rows={6}
           placeholder="Escribir contenido aquí..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
         />
       </Form.Group>
 
@@ -139,6 +145,8 @@ const AdminNewsForm = () => {
   const [editId, setEditId] = useState(null);
   const [loadingNews, setLoadingNews] = useState(true);
 
+  const backendUrl = 'https://club-europeo-back.vercel.app';
+
   useEffect(() => {
     fetchNews();
   }, []);
@@ -146,7 +154,7 @@ const AdminNewsForm = () => {
   const fetchNews = async () => {
     try {
       setLoadingNews(true);
-      const response = await axios.get('http://localhost:5000/news');
+      const response = await axios.get(`${backendUrl}/news`);
       setNewsList(response.data);
     } catch (error) {
       console.error('Error al obtener las noticias:', error);
@@ -178,7 +186,7 @@ const AdminNewsForm = () => {
 
     try {
       if (editMode) {
-        await axios.put(`http://localhost:5000/news/${editId}`, formData, {
+        await axios.put(`${backendUrl}/news/${editId}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -186,7 +194,7 @@ const AdminNewsForm = () => {
         setMessage('Noticia actualizada exitosamente.');
         setMessageType('success');
       } else {
-        await axios.post('http://localhost:5000/news', formData, {
+        await axios.post(`${backendUrl}/news`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -198,7 +206,8 @@ const AdminNewsForm = () => {
       resetForm();
       fetchNews();
     } catch (error) {
-      setMessage(editMode ? 'Error al actualizar la noticia.' : 'Error al publicar la noticia.');
+      const errorMessage = error.response?.data?.error || 'Error desconocido.';
+      setMessage(editMode ? `Error al actualizar la noticia: ${errorMessage}` : `Error al publicar la noticia: ${errorMessage}`);
       setMessageType('danger');
       console.error('Error:', error);
     } finally {
@@ -227,12 +236,13 @@ const AdminNewsForm = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/news/${id}`);
+      await axios.delete(`${backendUrl}/news/${id}`);
       setMessage('Noticia eliminada exitosamente.');
       setMessageType('success');
       fetchNews();
     } catch (error) {
-      setMessage('Error al eliminar la noticia.');
+      const errorMessage = error.response?.data?.error || 'Error desconocido.';
+      setMessage(`Error al eliminar la noticia: ${errorMessage}`);
       setMessageType('danger');
       console.error('Error al eliminar la noticia:', error);
     }
