@@ -14,7 +14,6 @@ const FormContainer = styled.div`
   max-width: 600px;
   margin: 0 auto;
   margin-left: 10px;
-  margin-top: 20px;
 `;
 
 const FormTitle = styled.h2`

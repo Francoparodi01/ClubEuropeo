@@ -4,18 +4,29 @@ import MapApi from '../../Components/Map/Map';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
 
+const StyledContainer = styled(Container)`
+  height: 100vh;
+  @media (max-width: 480px) {
+    margin-bottom: 300px;
+  }
+`;
+
 const FormWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
   padding: 20px;
+
   @media (max-width: 768px) {
     padding: 10px;
   }
-  @media (max-width: 480px) {
-    margin-top: 100px;
+  @media (max-width: 1024px) {
+    margin-top: 10px;
   }
+  @media (max-width: 1440px) {
+  margin-top: 150px;
+}
 `;
 
 const MapWrapper = styled.div`
@@ -27,8 +38,9 @@ const MapWrapper = styled.div`
     padding: 10px;
   }
   @media (max-width: 480px) {
-    margin-bottom: 400px;
+    margin-bottom: 300px;
   }
+
 `;
 
 const MapContainer = styled.div`
@@ -41,7 +53,6 @@ const MapContainer = styled.div`
   @media (max-width: 768px) {
     height: 50vh;
     margin-top: '100px';
-    margin-bottom: '70px'
   }
 
   @media (max-width: 480px) {
@@ -49,9 +60,10 @@ const MapContainer = styled.div`
   }
 `;
 
+
 const Contacto = () => {
   return (
-    <Container fluid style={{ height: '100vh'}}>
+    <StyledContainer fluid>
       <Row style={{ height: '100%' }}>
         <Col xs={12} md={4} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <FormWrapper>
@@ -67,7 +79,7 @@ const Contacto = () => {
           </MapWrapper>
         </Col>
       </Row>
-    </Container>
+    </StyledContainer>
   );
 };
 

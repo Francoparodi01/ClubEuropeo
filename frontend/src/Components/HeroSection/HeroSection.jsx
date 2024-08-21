@@ -1,6 +1,7 @@
 // src/HeroSection.js
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   return (
@@ -10,8 +11,12 @@ const HeroSection = () => {
         <Title>Club Europeo</Title>
         <Subtitle>Patrimonio cultural de Buenos Aires</Subtitle>
         <ButtonContainer>
-          <Button href="#contact">Contacto</Button>
+          <StyledLink to="/contact">
+            <Button>Contacto</Button>
+          </StyledLink>
+          <StyledLink to="/news">
           <Button href="#Noticias">Noticias</Button>
+          </StyledLink>
         </ButtonContainer>
       </Content>
     </HeroContainer>
@@ -55,7 +60,8 @@ const Title = styled.h1`
 const Subtitle = styled.h2`
   font-size: 1.5rem;
   margin-bottom: 40px;
-  font-family: 'montserrat alternates', semi-bold;
+  font-family: 'Montserrat Alternates', sans-serif;
+  font-weight: 600;
 `;
 
 const ButtonContainer = styled.div`
@@ -76,4 +82,8 @@ const Button = styled.a`
   &:hover {
     background: #002672;
   }
+`;
+
+const StyledLink = styled(Link)`
+  text-decoration: none;
 `;

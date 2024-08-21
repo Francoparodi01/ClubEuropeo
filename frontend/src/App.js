@@ -6,6 +6,7 @@ import Loader from './Components/Loader/Loader';
 import Home from './pages/Home/Home'
 import About from './pages/Nostoros/Nosotros'
 import News from './pages/Noticias/Noticias'
+import NewsDetail from './pages/Noticias/NewsDetail';  // Importa el nuevo componente
 import Footer from './Components/Footer/Footer';
 import Contacto from './pages/Contacto/Contacto';
 import AdminNewsForm from './Components/NewsHandler/NewsHandler';
@@ -36,13 +37,14 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About/>} />
-            <Route path="/news" element={<News/>}/>
-            <Route path='/contact' element={<Contacto/>}/>
-            <Route path='/admin/news' element={<AdminNewsForm/>}/>
+            <Route path="/about" element={<About />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/contact" element={<Contacto />} />
+            <Route path="/admin/news" element={<AdminNewsForm />} />
           </Routes>
-          <Carrousel/>
-          <Footer/>
+          <Carrousel />
+          <Footer />
         </>
       )}
     </Router>

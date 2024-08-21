@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 
 // Estilos personalizados utilizando styled-components
 const StyledCard = styled(Card)`
@@ -47,16 +48,19 @@ const ResuNews = () => {
       {error && <p>{error}</p>}
       <NewsContainer>
         {news.slice(0, 10).map((item) => {
-          const { title, content } = item;
+          const { _id, title, content } = item;
           const previewContent = content ? content.split(' ').slice(0, 25).join(' ') + '...' : '';
 
           return (
-            <StyledCard key={item._id}>
+            <StyledCard key={_id}>
               <Card.Body>
                 <StyledCardTitle>{title}</StyledCardTitle>
                 <StyledCardText
                   dangerouslySetInnerHTML={{ __html: previewContent }}
                 />
+                <Link to={`/news/${_id}`} className="btn btn-primary">
+                  Leer más
+                </Link>
               </Card.Body>
             </StyledCard>
           );

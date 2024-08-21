@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from 'react-router-dom'; 
 
 const NoticiasContainer = styled.div`
   padding: 20px;
@@ -69,7 +70,7 @@ const Noticias = () => {
   useEffect(() => {
     const fetchNoticias = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/news');
+        const response = await axios.get('http://localhost:5000/news'); // Asegúrate de que la URL sea correcta
         setNoticias(response.data);
       } catch (error) {
         console.error('Error fetching noticias', error);
@@ -78,6 +79,17 @@ const Noticias = () => {
 
     fetchNoticias();
   }, []);
+
+  const stripHtml = (html) => {
+    const div = document.createElement("div");
+    div.innerHTML = html;
+    return div.textContent || div.innerText || "";
+  };
+
+  const truncateText = (text, wordLimit) => {
+    const words = text.split(" ");
+    return words.length > wordLimit ? words.slice(0, wordLimit).join(" ") + "..." : text;
+  };
 
   return (
     <NoticiasContainer>
@@ -93,10 +105,12 @@ const Noticias = () => {
             )}
             <div className="card-body">
               <h5 className="card-title">{noticia.title}</h5>
-              <p 
-                className="card-text"
-                dangerouslySetInnerHTML={{ __html: noticia.content }}
-              />
+              <p className="card-text">
+                {truncateText(stripHtml(noticia.content), 25)}
+              </p>
+              <Link to={`/news/${noticia._id}`} className="btn btn-primary">
+                Leer más
+              </Link>
             </div>
             <div className="card-footer">
               <Author>Por {noticia.author}</Author>

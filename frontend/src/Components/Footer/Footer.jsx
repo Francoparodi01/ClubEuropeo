@@ -96,7 +96,7 @@ const Footer = () => {
       </div>
       <div className="container-footer">
         <ul className="social-icons">
-          <li><a className="github" target="_blank" rel="noopener noreferrer" href="https://maps.app.goo.gl/PckEVEYeaev1JYe3A"><FaMapMarkerAlt /></a></li>
+          
           <li><a className="gmail" target="_blank" rel="noopener noreferrer" href="https://mail.google.com/mail/u/1/#inbox?compose=GTvVlcSDXXrmlzJTTmGmpSTzBRmDxJLngdmsDQTLNWLWzwHmPCZsLmxJqPqSTvNHxBqfSVbwFqNnM"><SiGmail /></a></li>
           <li><a className="linkedin" target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/in/franco-parodi-a638ab206/"><FaLinkedin /></a></li>
         </ul>
