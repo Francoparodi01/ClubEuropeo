@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 const admin = require('firebase-admin');
+const axios = require('axios');
 
 const serviceAccount = require(process.env.FIREBASE_SERVICE_ACCOUNT_PATH);
 
@@ -34,9 +35,18 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 
-// Define tus rutas y lógica de la aplicación aquí...
-// Ejemplo de una ruta para manejar la subida de noticias con imagen
+// Ruta para obtener noticias desde una API externa
+app.get('/external-news', async (req, res) => {
+  try {
+    const response = await axios.get('https://external-news-api.com/news'); // Reemplaza con la URL de la API externa
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error('Error al obtener noticias de la API externa:', error);
+    res.status(500).json({ error: 'Error al obtener noticias.' });
+  }
+});
 
+// Ruta para manejar la subida de noticias con imagen
 app.post('/news', upload.single('image'), async (req, res) => {
   const { title, content, publishedAt, author } = req.body;
   let imageUrl = null;
